@@ -1,23 +1,42 @@
 import { Route, Routes } from "react-router-dom";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 
-import Header from "./components/Header/Header";
-import LogIn from "./components/LogIn/LogIn";
-import Register from "./components/Register/Register";
-import Home from "./components/Home/Home";
-import Tasks from "./components/Tasks/Tasks";
+import Layout from "./components/Layout/Layout";
+import LoginPage from "./pages/LoginPage";
+import RegistrationPage from "./pages/RegistrationPage";
+import HomePage from "./pages/HomePage/HomePage";
+import ContactsPage from "./pages/ContactsPage";
+
+import PrivateRoute from "./components/PrivateRoute";
+import RestrictedRoute from "./components/RestrictedRoute";
+
+import { refresh } from "./redux/auth/operations";
+import { fetchContacts } from "./redux/contacts/operations";
 
 function App() {
-  return (
-    <>
-      <Header />
+  var dispatch = useDispatch();
 
-      <Routes>
-        <Route path="/" element={<Home />}></Route>
-        <Route path="/tasks" element={<Tasks />}></Route>
-        <Route path="/register" element={<Register />}></Route>
-        <Route path="/logIn" element={<LogIn />}></Route>
-      </Routes>
-    </>
+  useEffect(() => {
+    dispatch(refresh());
+    dispatch(fetchContacts());
+  });
+
+  return (
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route index element={<HomePage />} />
+        <Route
+          path="contacts"
+          element={<PrivateRoute element={ContactsPage} />}
+        />
+        <Route
+          path="register"
+          element={<RestrictedRoute element={RegistrationPage} />}
+        />
+        <Route path="login" element={<RestrictedRoute element={LoginPage} />} />
+      </Route>
+    </Routes>
   );
 }
 
