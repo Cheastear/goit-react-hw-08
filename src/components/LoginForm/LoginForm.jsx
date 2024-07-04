@@ -11,7 +11,7 @@ let formSchema = Yup.object({
   password: Yup.string().min(8, "Length must be 8 or more!").required(),
 });
 
-function LogIn() {
+function LoginForm() {
   var emailId = useId();
   var passId = useId();
   const dispatch = useDispatch();
@@ -52,4 +52,6 @@ function LogIn() {
   );
 }
 
-export default LogIn;
+LoginForm.propTypes = {};
+
+export default LoginForm;

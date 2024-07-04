@@ -12,7 +12,7 @@ let formSchema = Yup.object({
   password: Yup.string().min(8, "Length must be 8 or more!").required(),
 });
 
-function LogIn() {
+function RegistrationForm() {
   var nameId = useId();
   var emailId = useId();
   var passId = useId();
@@ -60,4 +60,4 @@ function LogIn() {
   );
 }
 
-export default LogIn;
+export default RegistrationForm;

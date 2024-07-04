@@ -1,10 +1,10 @@
-import LoginPage from "../components/LoginForm/LoginForm";
+import LoginForm from "../components/LoginForm/LoginForm";
 
 function RegistrationPage() {
   return (
     <div>
       <h2>Login</h2>
-      <LoginPage />
+      <LoginForm />
     </div>
   );
 }

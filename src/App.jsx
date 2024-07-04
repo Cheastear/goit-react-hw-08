@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import Layout from "./components/Layout/Layout";
 import LoginPage from "./pages/LoginPage";
@@ -12,15 +12,19 @@ import PrivateRoute from "./components/PrivateRoute";
 import RestrictedRoute from "./components/RestrictedRoute";
 
 import { refresh } from "./redux/auth/operations";
-import { fetchContacts } from "./redux/contacts/operations";
+import { selectIsRefreshing } from "./redux/auth/selectors";
 
 function App() {
   var dispatch = useDispatch();
+  const isRefreshing = useSelector(selectIsRefreshing);
 
   useEffect(() => {
     dispatch(refresh());
-    dispatch(fetchContacts());
-  });
+  }, [dispatch]);
+
+  if (isRefreshing) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <Routes>
@@ -28,7 +32,7 @@ function App() {
         <Route index element={<HomePage />} />
         <Route
           path="contacts"
-          element={<PrivateRoute element={ContactsPage} />}
+          element={<PrivateRoute element={ContactsPage} redirectTo="/login" />}
         />
         <Route
           path="register"
